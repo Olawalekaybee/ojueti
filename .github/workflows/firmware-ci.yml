@@ -7,6 +7,7 @@ on:
   push:
     branches: [main]
     tags: ["v*"]
+    paths-ignore: ["media/**", "**.md"]
   pull_request:
   workflow_dispatch:
 
@@ -16,11 +17,11 @@ permissions:
 jobs:
   build:
     name: Build firmware (ESP-IDF v5.5, esp32p4)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # pinned so the runner image only changes when I choose
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0 # full history, so the firmware version comes from git describe
 
@@ -29,7 +30,7 @@ jobs:
         with:
           esp_idf_version: release-v5.5
           target: esp32p4
-          path: "firmware"
+          path: firmware
 
       - name: Collect firmware files
         run: |
@@ -43,9 +44,9 @@ jobs:
           ls -lh dist
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
-          name: ojueti-firmware-${{ github.sha }}
+          name: ojueti-${{ github.sha }}
           path: dist/
           retention-days: 30
 

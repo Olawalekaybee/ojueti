@@ -1,14 +1,16 @@
 # Ojueti
 
+**Eyes and ears at the edge.**
+
 ![firmware-ci](https://github.com/olawalekaybee/ojueti/actions/workflows/firmware-ci.yml/badge.svg)
 
-**Ojueti** is a camera and audio edge-AI device built on the Waveshare ESP32-P4-WIFI6. The name joins two Yoruba words, *ojú* (eye) and *etí* (ear), because the device is built to see and hear, then decide on its own.
+Ojueti is a camera and audio edge-AI device built on the Waveshare ESP32-P4-WIFI6. It is part of my **EdgeCore Series**, where I build real embedded products in public, one episode at a time.
 
-It is part of my **EdgeCore Series**, where I build real embedded products in public, one episode at a time.
+The name comes from Yoruba: *ojú* means eye and *etí* means ear. That is the whole idea of the device.
 
 ## What I'm building
 
-A small, self-contained device that captures video through a MIPI-CSI camera, listens through an onboard microphone, runs AI inference on the device itself, and connects over Wi-Fi 6 only when it has something worth reporting.
+A small, self-contained device that sees and hears. It captures video through a MIPI-CSI camera, listens through an onboard microphone, runs AI inference on the device itself, and connects over Wi-Fi 6 only when it has something worth reporting.
 
 The goal is useful intelligence at the edge, with no cloud dependency for the core function.
 
@@ -23,52 +25,34 @@ The goal is useful intelligence at the edge, with no cloud dependency for the co
 | Raspberry Pi Camera (B), OV5647 | Camera, on the 22-pin CSI connector |
 | 8 ohm speaker, onboard MEMS mic | Audio output and input |
 
-Pin map and schematic notes: [docs/hardware/board-notes.md](docs/hardware/board-notes.md)
+Pin map, power tree and schematic notes: [hardware/README.md](hardware/README.md).
 
 ## Repository structure
 
 ```
 ojueti/
 ├── .github/
-│   └── workflows/
-│       └── firmware-ci.yml        Build on every push, release on every tag
-├── .vscode/                       Editor settings shared with the repo
-├── docs/
-│   ├── hardware/
-│   │   └── board-notes.md         Power tree, pin map, schematic findings
-│   ├── setup/
-│   │   └── windows-setup.md       Command-line toolchain on Windows 10
-│   └── reference/
-│       └── README.md              Links to the schematic, datasheet and TRM
-├── firmware/                      ESP-IDF project root
+│   ├── workflows/firmware-ci.yml   Build on every push, release on every tag
+│   └── pull_request_template.md
+├── .vscode/                        Editor settings (IntelliSense from the real build)
+├── firmware/                       ESP-IDF project
+│   ├── main/                       Application entry point
+│   ├── components/board/           Pin map and board bring-up, all hardware details in one place
 │   ├── CMakeLists.txt
-│   ├── sdkconfig.defaults
-│   ├── main/
-│   │   ├── CMakeLists.txt
-│   │   └── app_main.c             Application entry point
-│   └── components/
-│       └── board/                 Pin map and board bring-up, the only place GPIOs are defined
-│           ├── CMakeLists.txt
-│           ├── board.c
-│           └── include/
-│               └── board.h
+│   └── sdkconfig.defaults
+├── hardware/                       Board notes and vendor reference documents
+├── docs/
+│   └── getting-started/            Toolchain setup
 ├── media/
-│   ├── roadmap.md                 Episode plan for the series
-│   └── episodes/
-│       └── ep01/
-│           └── content-kit.md     YouTube, LinkedIn, Instagram and X material
-├── .clang-format
-├── .gitignore
+│   ├── episodes/                   Video and social media material, one folder per episode
+│   └── roadmap.md                  Episode plan
 ├── CHANGELOG.md
-├── LICENSE
-└── README.md
+└── LICENSE
 ```
-
-Firmware, documentation and series content each have their own top-level folder, so the repository can grow into hardware (enclosure, carrier board) and tooling later without mixing concerns.
 
 ## Quick start
 
-I develop on Windows 10 from the command line. The full setup is in [docs/setup/windows-setup.md](docs/setup/windows-setup.md).
+I develop on Windows 10 from the command line. Full setup: [docs/getting-started/windows-setup.md](docs/getting-started/windows-setup.md).
 
 ```powershell
 git clone https://github.com/olawalekaybee/ojueti.git
@@ -78,24 +62,28 @@ idf.py build
 idf.py -p COM5 flash monitor
 ```
 
-Replace `COM5` with the port shown in Device Manager. Press `Ctrl+]` to leave the monitor.
+Replace `COM5` with the port your board shows in Device Manager. Press `Ctrl+]` to leave the monitor.
 
 ## Project status
 
 - [x] **Episode 1:** schematic review, toolchain, repository, CI/CD, board health check
-- [ ] Episode 2: audio pipeline
-- [ ] Episode 3: camera pipeline
+- [ ] Episode 2: audio pipeline (mic capture and speaker playback)
+- [ ] Episode 3: camera pipeline (OV5647, ISP, JPEG)
 - [ ] Episode 4: Wi-Fi 6 through the ESP32-C6
 - [ ] Episode 5: on-device vision AI
 - [ ] Episode 6: on-device audio AI
-- [ ] Episode 7: sensor fusion and OTA updates
+- [ ] Episode 7: sensor fusion and OTA updates from CI releases
 - [ ] Episode 8: enclosure, power and final demo
 
-Full plan: [media/roadmap.md](media/roadmap.md)
+Full plan: [media/roadmap.md](media/roadmap.md). Release history: [CHANGELOG.md](CHANGELOG.md).
+
+## What the Episode 1 firmware does
+
+On boot, the board prints a health report: firmware version, chip revision, flash and PSRAM size, and free memory. It then scans the shared I2C bus and confirms the audio codec and the camera sensor are both present. After that, a heartbeat logs uptime and free memory every 10 seconds.
 
 ## CI/CD
 
-Every push and pull request builds the firmware in Espressif's official ESP-IDF container. Pushing a tag such as `v0.1.0` publishes a GitHub Release with the flashable binaries attached. Each episode ends with a tagged release.
+Every push and pull request is built by GitHub Actions in Espressif's official ESP-IDF container. Tagging a commit, for example `v0.1.0`, publishes a GitHub Release with the flashable binaries attached. Each episode ends with a tagged release.
 
 ## Follow the build
 
