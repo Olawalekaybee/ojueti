@@ -1,0 +1,19 @@
+# ESP-IDF build output
+build/
+sdkconfig
+sdkconfig.old
+managed_components/
+
+# Editor and OS files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/c_cpp_properties.json
+*.swp
+.DS_Store
+Thumbs.db
+
+# CI output
+dist/
+
+# Vendor reference PDFs stay local. Download links are in docs/reference/README.md
+docs/reference/*.pdf

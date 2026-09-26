@@ -1,0 +1,16 @@
+# Ojueti: project-wide defaults for the Waveshare ESP32-P4-WIFI6.
+# I keep only the settings I have a reason for here. Everything else stays at the ESP-IDF default.
+
+# The board carries a 32 MB GD25Q256 NOR flash.
+CONFIG_ESPTOOLPY_FLASHSIZE_32MB=y
+
+# 32 MB PSRAM is stacked inside the ESP32-P4NRW32 package. Camera frames and AI models will live here.
+CONFIG_SPIRAM=y
+
+# Chip revision. Early P4 silicon is v1.x, while ESP-IDF v5.5 can target v3.x and newer.
+# I check my board first with:  esptool.py --port COMx chip_id
+# If it reports v3.x or later, I delete this line and rebuild.
+CONFIG_ESP32P4_SELECTS_REV_LESS_V3=y
+
+# 1 ms tick gives me finer timing for the audio and camera pipelines later in the series.
+CONFIG_FREERTOS_HZ=1000
