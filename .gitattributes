@@ -1,0 +1,13 @@
+# Store every text file with LF line endings in the repository.
+# CI builds on Linux, so this keeps the source identical everywhere.
+* text=auto eol=lf
+
+# Windows scripts keep CRLF
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+
+# Binary files
+*.pdf binary
+*.png binary
+*.jpg binary
+*.bin binary

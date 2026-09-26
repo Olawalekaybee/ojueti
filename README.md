@@ -25,7 +25,7 @@ The goal is useful intelligence at the edge, with no cloud dependency for the co
 | Raspberry Pi Camera (B), OV5647 | Camera, on the 22-pin CSI connector |
 | 8 ohm speaker, onboard MEMS mic | Audio output and input |
 
-Pin map, power tree and schematic notes: [hardware/README.md](hardware/README.md).
+Pin map, power tree and schematic notes: [docs/hardware/board-notes.md](docs/hardware/board-notes.md).
 
 ## Repository structure
 
@@ -40,9 +40,10 @@ ojueti/
 │   ├── components/board/           Pin map and board bring-up, all hardware details in one place
 │   ├── CMakeLists.txt
 │   └── sdkconfig.defaults
-├── hardware/                       Board notes and vendor reference documents
 ├── docs/
-│   └── getting-started/            Toolchain setup
+│   ├── hardware/board-notes.md     Pin map, power tree and schematic notes
+│   ├── reference/                  Links to vendor datasheets and the schematic
+│   └── setup/windows-setup.md      Toolchain setup
 ├── media/
 │   ├── episodes/                   Video and social media material, one folder per episode
 │   └── roadmap.md                  Episode plan
@@ -52,7 +53,7 @@ ojueti/
 
 ## Quick start
 
-I develop on Windows 10 from the command line. Full setup: [docs/getting-started/windows-setup.md](docs/getting-started/windows-setup.md).
+I develop on Windows 10 from the command line. Full setup: [docs/setup/windows-setup.md](docs/setup/windows-setup.md).
 
 ```powershell
 git clone https://github.com/olawalekaybee/ojueti.git

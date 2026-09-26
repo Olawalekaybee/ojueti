@@ -1,8 +1,12 @@
 # ESP-IDF build output
-build/
-sdkconfig
-sdkconfig.old
-managed_components/
+firmware/build/
+firmware/sdkconfig
+firmware/sdkconfig.old
+firmware/managed_components/
+
+# Vendor reference documents: kept locally, linked in docs/reference/README.md
+docs/reference/*.pdf
+hardware/reference/*.pdf
 
 # Editor and OS files
 .vscode/*
@@ -14,6 +18,3 @@ Thumbs.db
 
 # CI output
 dist/
-
-# Vendor reference PDFs stay local. Download links are in docs/reference/README.md
-docs/reference/*.pdf
